@@ -20,14 +20,5 @@ func main() {
 
 	api.RegisterHandlers(e, a)
 
-	//h := api.Handler(a)
-
-	//s := &http.Server{
-	//Handler: h,
-	//Addr:    fmt.Sprintf("0.0.0.0:%d", *port),
-	//}
-
-	// And we serve HTTP until the world ends.
-	//log.Fatal(s.ListenAndServe())
 	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%d", *port)))
 }

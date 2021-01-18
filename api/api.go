@@ -4,6 +4,9 @@
 package api
 
 import (
+	"fmt"
+	"math/rand"
+	"net/http"
 	"sync"
 
 	"github.com/labstack/echo/v4"
@@ -31,94 +34,314 @@ func sendApiError(ctx echo.Context, code int, message string) error {
 	return err
 }
 
-func (*Api) GetApiIdentifier(ctx echo.Context) error { return nil }
+func (*Api) GetApiIdentifier(ctx echo.Context) error {
+	str := "go-swagger Lambda integration API - version 1.0"
 
-// Get endpoint defined which simply gives response indicating that POST should be used
-// (GET /body-param/complex-response)
-func (*Api) GetBodyParamComplexResponse(ctx echo.Context) error { return nil }
+	r := SimpleMessageResponse{
+		Message: str,
+	}
 
-// An endpoint which takes an input parameters and returns a HTTP response code and a complex JSON object in a body
-// (POST /body-param/complex-response)
-func (*Api) PostBodyParamComplexResponse(ctx echo.Context) error { return nil }
-
-// Get endpoint defined which simply gives response indicating that POST should be used
-// (GET /body-param/empty-response)
-func (*Api) GetBodyParamEmptyResponse(ctx echo.Context) error { return nil }
-
-// Endpoint which takes a body parameter and returns a HTTP response code only
-// (POST /body-param/empty-response)
-func (*Api) PostBodyParamEmptyResponse(ctx echo.Context) error { return nil }
-
-// Get endpoint defined which simply gives response indicating that POST should be used
-// (GET /body-param/error-response)
-func (*Api) GetBodyParamErrorResponse(ctx echo.Context) error { return nil }
-
-// An endpoint which takes an input parameter and returns a HTTP response code and an error response
-// (POST /body-param/error-response)
-func (*Api) PostBodyParamErrorResponse(ctx echo.Context) error { return nil }
-
-// Get endpoint defined which simply gives response indicating that POST should be used
-// (GET /body-param/simple-response)
-func (*Api) GetBodyParamSimpleResponse(ctx echo.Context) error { return nil }
-
-// Endpoint which takes a body parameter and returns a HTTP response containing a simple message
-// (POST /body-param/simple-response)
-func (*Api) PostBodyParamSimpleResponse(ctx echo.Context) error { return nil }
-
-// An endpoint which returns a HTTP response code and a complex JSON object in a body
-// (GET /no-params/complex-response)
-func (*Api) GetNoParamsComplexResponse(ctx echo.Context) error { return nil }
+	return ctx.JSON(http.StatusOK, r)
+}
 
 // An endpoint which returns a HTTP response code only
 // (GET /no-params/empty-response)
-func (*Api) GetNoParamsEmptyResponse(ctx echo.Context) error { return nil }
-
-// An endpoint which returns a HTTP response code and an error response
-// (GET /no-params/error-response)
-func (*Api) GetNoParamsErrorResponse(ctx echo.Context) error { return nil }
+func (*Api) GetNoParamsEmptyResponse(ctx echo.Context) error {
+	return ctx.JSON(http.StatusOK, nil)
+}
 
 // An endpoint which returns a HTTP response code and a JSON encoded message in a body
 // (GET /no-params/simple-response)
-func (*Api) GetNoParamsSimpleResponse(ctx echo.Context) error { return nil }
+func (*Api) GetNoParamsSimpleResponse(ctx echo.Context) error {
+	str := "Response from GetNoParamsSimpleResponse function"
 
-// An endpoint which takes an input parameters and returns a HTTP response code and a complex JSON object in a body
-// (GET /path-param/complex-response/{path-param})
-func (*Api) GetPathParamComplexResponse(ctx echo.Context, pathParam int) error { return nil }
+	r := SimpleMessageResponse{
+		Message: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// An endpoint which returns a HTTP response code and a complex JSON object in a body
+// (GET /no-params/complex-response)
+func (*Api) GetNoParamsComplexResponse(ctx echo.Context) error {
+	stringArray := []string{"param1", "param2"}
+	descriptor1 := "A descriptive string (object1)"
+	intVal := rand.Int()
+	o1 := SimpleObjectOne{
+		StringArray: stringArray,
+		Descriptor:  descriptor1,
+		IntVal:      intVal,
+	}
+
+	descriptor2 := "A descriptive string (object2)"
+	intArray := []int{rand.Int(), rand.Int(), rand.Int(), rand.Int()}
+	o2 := SimpleObjectTwo{
+		Descriptor: descriptor2,
+		IntArray:   intArray,
+	}
+	optionalParam := rand.Int()
+	r := ComplexObjectResponse{
+		Object1:       o1,
+		Object2:       o2,
+		OptionalParam: &optionalParam,
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// An endpoint which returns a HTTP response code and an error response
+// (GET /no-params/error-response)
+func (*Api) GetNoParamsErrorResponse(ctx echo.Context) error {
+	str := "Calling this endpoint (GetNoParamsErrorResponse) deliberately generates an error case."
+	randomInt := rand.Int()
+
+	r := ErrorResponse{
+		ErrorNumber: randomInt,
+		ErrorString: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
+
+}
 
 // Endpoint which takes a parameter and returns a HTTP response code only
 // (GET /path-param/empty-response/{path-param})
-func (*Api) GetPathParamEmptyResponse(ctx echo.Context, pathParam int) error { return nil }
-
-// An endpoint which takes an input parameter and returns a HTTP response code and an error response
-// (GET /path-param/error-response/{path-param})
-func (*Api) GetPathParamErrorResponse(ctx echo.Context, pathParam int) error { return nil }
+func (*Api) GetPathParamEmptyResponse(ctx echo.Context, pathParam int) error {
+	return ctx.JSON(http.StatusOK, nil)
+}
 
 // Endpoint which takes a parameter and returns a HTTP response containing a simple message
 // (GET /path-param/simple-response/{path-param})
-func (*Api) GetPathParamSimpleResponse(ctx echo.Context, pathParam int) error { return nil }
+func (*Api) GetPathParamSimpleResponse(ctx echo.Context, pathParam int) error {
+	str := fmt.Sprintf("Response from GetPathParamSimpleResponse function - input param = %v", pathParam)
+
+	r := SimpleMessageResponse{
+		Message: str,
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
 
 // An endpoint which takes an input parameters and returns a HTTP response code and a complex JSON object in a body
-// (GET /query-param/complex-response)
-func (*Api) GetQueryParamComplexResponse(ctx echo.Context, params GetQueryParamComplexResponseParams) error {
-	return nil
+// (GET /path-param/complex-response/{path-param})
+func (*Api) GetPathParamComplexResponse(ctx echo.Context, pathParam int) error {
+	str := fmt.Sprintf("Input param = %v", pathParam)
+
+	stringArray := []string{"param1", "param2", str}
+	descriptor1 := "A descriptive string (object1)"
+	intVal := rand.Int()
+	o1 := SimpleObjectOne{
+		StringArray: stringArray,
+		Descriptor:  descriptor1,
+		IntVal:      intVal,
+	}
+
+	descriptor2 := "A descriptive string (object2)"
+	intArray := []int{rand.Int(), rand.Int(), rand.Int(), rand.Int()}
+	o2 := SimpleObjectTwo{
+		Descriptor: descriptor2,
+		IntArray:   intArray,
+	}
+	optionalParam := rand.Int()
+	r := ComplexObjectResponse{
+		Object1:       o1,
+		Object2:       o2,
+		OptionalParam: &optionalParam,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// An endpoint which takes an input parameter and returns a HTTP response code and an error response
+// (GET /path-param/error-response/{path-param})
+func (*Api) GetPathParamErrorResponse(ctx echo.Context, pathParam int) error {
+	str := fmt.Sprintf("Calling this endpoint (GetPathParamErrorResponse) deliberately generates an error case - Input param = %v", pathParam)
+	randomInt := rand.Int()
+
+	r := ErrorResponse{
+		ErrorNumber: randomInt,
+		ErrorString: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
 }
 
 // Endpoint which takes a parameter and returns a HTTP response code only
 // (GET /query-param/empty-response)
 func (*Api) GetQueryParamEmptyResponse(ctx echo.Context, params GetQueryParamEmptyResponseParams) error {
-	return nil
-}
-
-// An endpoint which takes an input parameter and returns a HTTP response code and an error response
-// (GET /query-param/error-response)
-func (*Api) GetQueryParamErrorResponse(ctx echo.Context, params GetQueryParamErrorResponseParams) error {
-	return nil
+	return ctx.JSON(http.StatusOK, nil)
 }
 
 // Endpoint which takes a parameter and returns a HTTP response containing a simple message
 // (GET /query-param/simple-response)
 func (*Api) GetQueryParamSimpleResponse(ctx echo.Context, params GetQueryParamSimpleResponseParams) error {
-	return nil
+	str := fmt.Sprintf("Response from GetPathParamSimpleResponse function - input param = %v", params.QueryParam)
+
+	r := SimpleMessageResponse{
+		Message: str,
+	}
+
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// An endpoint which takes an input parameters and returns a HTTP response code and a complex JSON object in a body
+// (GET /query-param/complex-response)
+func (*Api) GetQueryParamComplexResponse(ctx echo.Context, params GetQueryParamComplexResponseParams) error {
+	str := fmt.Sprintf("Input param = %v", params.QueryParam)
+
+	stringArray := []string{"param1", "param2", str}
+	descriptor1 := "A descriptive string (object1)"
+	intVal := rand.Int()
+	o1 := SimpleObjectOne{
+		StringArray: stringArray,
+		Descriptor:  descriptor1,
+		IntVal:      intVal,
+	}
+
+	descriptor2 := "A descriptive string (object2)"
+	intArray := []int{rand.Int(), rand.Int(), rand.Int(), rand.Int()}
+	o2 := SimpleObjectTwo{
+		Descriptor: descriptor2,
+		IntArray:   intArray,
+	}
+	optionalParam := rand.Int()
+	r := ComplexObjectResponse{
+		Object1:       o1,
+		Object2:       o2,
+		OptionalParam: &optionalParam,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// An endpoint which takes an input parameter and returns a HTTP response code and an error response
+// (GET /query-param/error-response)
+func (*Api) GetQueryParamErrorResponse(ctx echo.Context, params GetQueryParamErrorResponseParams) error {
+	str := fmt.Sprintf("Calling this endpoint (GetPathParamErrorResponse) deliberately generates an error case - Input param = %v", params.QueryParam)
+	randomInt := rand.Int()
+
+	r := ErrorResponse{
+		ErrorNumber: randomInt,
+		ErrorString: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// Get endpoint defined which simply gives response indicating that POST should be used
+// (GET /body-param/empty-response)
+func (*Api) GetBodyParamEmptyResponse(ctx echo.Context) error {
+	str := "GET not implemented on this endpoint - please use POST instead."
+	randomInt := rand.Int()
+
+	r := ErrorResponse{
+		ErrorNumber: randomInt,
+		ErrorString: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
+
+}
+
+// Endpoint which takes a body parameter and returns a HTTP response code only
+// (POST /body-param/empty-response)
+func (*Api) PostBodyParamEmptyResponse(ctx echo.Context) error {
+	return ctx.JSON(http.StatusOK, nil)
+}
+
+// Get endpoint defined which simply gives response indicating that POST should be used
+// (GET /body-param/simple-response)
+func (*Api) GetBodyParamSimpleResponse(ctx echo.Context) error {
+	str := "GET not implemented on this endpoint - please use POST instead."
+	randomInt := rand.Int()
+
+	r := ErrorResponse{
+		ErrorNumber: randomInt,
+		ErrorString: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// Endpoint which takes a body parameter and returns a HTTP response containing a simple message
+// (POST /body-param/simple-response)
+func (*Api) PostBodyParamSimpleResponse(ctx echo.Context) error {
+	var inputParams InputObject
+	ctx.Bind(&inputParams)
+	str := fmt.Sprintf("Response from PostBodyParamSimpleResponse function - called with JSON object {'descriptor': '%v', 'int_val': %v, 'string': '%v'}",
+		inputParams.Descriptor, inputParams.IntVal, inputParams.String)
+
+	r := SimpleMessageResponse{
+		Message: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// Get endpoint defined which simply gives response indicating that POST should be used
+// (GET /body-param/complex-response)
+func (*Api) GetBodyParamComplexResponse(ctx echo.Context) error {
+	str := "GET not implemented on this endpoint - please use POST instead."
+	randomInt := rand.Int()
+
+	r := ErrorResponse{
+		ErrorNumber: randomInt,
+		ErrorString: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// An endpoint which takes an input parameters and returns a HTTP response code and a complex JSON object in a body
+// (POST /body-param/complex-response)
+func (*Api) PostBodyParamComplexResponse(ctx echo.Context) error {
+	var inputParams InputObject
+	ctx.Bind(&inputParams)
+	str := fmt.Sprintf("Response from PostBodyParamSimpleResponse function - called with JSON object {'descriptor': '%v', 'int_val': %v, 'string': '%v'}",
+		inputParams.Descriptor, inputParams.IntVal, inputParams.String)
+
+	stringArray := []string{"param1", "param2", str}
+	descriptor1 := "A descriptive string (object1)"
+	intVal := rand.Int()
+	o1 := SimpleObjectOne{
+		StringArray: stringArray,
+		Descriptor:  descriptor1,
+		IntVal:      intVal,
+	}
+
+	descriptor2 := "A descriptive string (object2)"
+	intArray := []int{rand.Int(), rand.Int(), rand.Int(), rand.Int()}
+	o2 := SimpleObjectTwo{
+		Descriptor: descriptor2,
+		IntArray:   intArray,
+	}
+	optionalParam := rand.Int()
+	r := ComplexObjectResponse{
+		Object1:       o1,
+		Object2:       o2,
+		OptionalParam: &optionalParam,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// Get endpoint defined which simply gives response indicating that POST should be used
+// (GET /body-param/error-response)
+func (*Api) GetBodyParamErrorResponse(ctx echo.Context) error {
+	str := "GET not implemented on this endpoint - please use POST instead."
+	randomInt := rand.Int()
+
+	r := ErrorResponse{
+		ErrorNumber: randomInt,
+		ErrorString: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
+}
+
+// An endpoint which takes an input parameter and returns a HTTP response code and an error response
+// (POST /body-param/error-response)
+func (*Api) PostBodyParamErrorResponse(ctx echo.Context) error {
+	var inputParams InputObject
+	ctx.Bind(&inputParams)
+	str := fmt.Sprintf("Calling this endpoint (PostBodyParamErrorResponse) deliberately generates an error case - called with JSON object {'descriptor': '%v', 'int_val': %v, 'string': '%v'}",
+		inputParams.Descriptor, inputParams.IntVal, inputParams.String)
+	randomInt := rand.Int()
+
+	r := ErrorResponse{
+		ErrorNumber: randomInt,
+		ErrorString: str,
+	}
+	return ctx.JSON(http.StatusOK, r)
 }
 
 //Here, we implement all of the handlers in the ServerInterface
