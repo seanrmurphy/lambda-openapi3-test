@@ -559,7 +559,6 @@ paths:
 components:
   schemas:
     ErrorResponse:
-      type: object
       required:
       - error_number
       - error_string
@@ -570,7 +569,6 @@ components:
           type: integer
 
     SimpleMessageResponse:
-      type: object
       required:
       - message
       properties:
@@ -578,7 +576,6 @@ components:
           type: string
 
     InputObject:
-      type: object
       required:
       - string
       - descriptor
@@ -592,7 +589,6 @@ components:
           type: integer
 
     SimpleObjectOne:
-      type: object
       required:
       - string_array
       - descriptor
@@ -608,7 +604,6 @@ components:
           type: integer
 
     SimpleObjectTwo:
-      type: object
       required:
       - int_array
       - descriptor
@@ -621,7 +616,6 @@ components:
           type: string
 
     ComplexObjectResponse:
-      type: object
       required:
       - object1
       - object2
