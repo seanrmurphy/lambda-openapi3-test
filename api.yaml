@@ -1,8 +1,8 @@
-openapi: '3.0'
+openapi: 3.0.0
 info:
   description: A Test API for testing lambda/OpenAPI integration in Go
   version: 1.0.0
-  title: Lambda/Open Go Swagger Test API
+  title: Lambda/OpenAPI 3 Test API in Go
   # put the contact info for your development or API team
   contact:
     email: sean@gopaddy.ch
@@ -33,13 +33,12 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Returns API version and running backend version
           schema:
-            $ref: '#/definitions/SimpleMessageResponse'
-        500:
+            $ref: '#/components/schemas/SimpleMessageResponse'
+        '500':
           description: General Failure
-
 
   /no-params/empty-response:
     get:
@@ -57,9 +56,9 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call
-        500:
+        '500':
           description: General Failure
 
   /no-params/simple-response:
@@ -78,11 +77,11 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call returning message in simple JSON object
           schema:
-            $ref: '#/definitions/SimpleMessageResponse'
-        500:
+            $ref: '#/components/schemas/SimpleMessageResponse'
+        '500':
           description: General Failure
 
   /no-params/complex-response:
@@ -101,11 +100,11 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call returning complex object
           schema:
-            $ref: '#/definitions/ComplexObjectResponse'
-        500:
+            $ref: '#/components/schemas/ComplexObjectResponse'
+        '500':
           description: General Failure
 
   /no-params/error-response:
@@ -124,11 +123,11 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        418:
+        '418':
           description: Error generated when executing API call
           schema:
-            $ref: '#/definitions/ErrorResponse'
-        500:
+            $ref: '#/components/schemas/ErrorResponse'
+        '500':
           description: General Failure
 
   /path-param/empty-response/{path-param}:
@@ -147,16 +146,17 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call
-        500:
+        '500':
           description: General Failure
       parameters:
       - in: path
         name: path-param
         description: An arbitrary test parameter which is ignored here
-        type: integer
         required: true
+        schema:
+          type: integer
 
   /path-param/simple-response/{path-param}:
     get:
@@ -174,18 +174,19 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call returning message in simple JSON object
           schema:
-            $ref: '#/definitions/SimpleMessageResponse'
-        500:
+            $ref: '#/components/schemas/SimpleMessageResponse'
+        '500':
           description: General Failure
       parameters:
       - in: path
         name: path-param
         description: An arbitrary test parameter which is returned in the response
-        type: integer
         required: true
+        schema:
+          type: integer
 
   /path-param/complex-response/{path-param}:
     get:
@@ -203,18 +204,19 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call returning complex object
           schema:
-            $ref: '#/definitions/ComplexObjectResponse'
-        500:
+            $ref: '#/components/schemas/ComplexObjectResponse'
+        '500':
           description: General Failure
       parameters:
       - in: path
         name: path-param
         description: An arbitrary test parameter which is returned in the response
-        type: integer
         required: true
+        schema:
+          type: integer
 
   /path-param/error-response/{path-param}:
     get:
@@ -232,69 +234,19 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        418:
+        '418':
           description: Error generated when executing API call
           schema:
-            $ref: '#/definitions/ErrorResponse'
-        500:
+            $ref: '#/components/schemas/ErrorResponse'
+        '500':
           description: General Failure
       parameters:
       - in: path
         name: path-param
         description: An arbitrary test parameter which is returned in the response
-        type: integer
         required: true
-
-  /body-param/empty-response:
-    get:
-      tags:
-      - open
-      summary: Get endpoint defined which simply gives response indicating that POST should be used
-      operationId: getBodyParamEmptyResponse
-      description:
-        Get endpoint defined which simply gives response indicating that POST should be used
-      produces:
-      - application/json
-      x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
-      responses:
-        501:
-          description: API call runs, but there is no implementation
-          schema:
-            $ref: '#/definitions/ErrorResponse'
-        500:
-          description: General Failure
-    post:
-      tags:
-      - open
-      summary: Endpoint which takes a body parameter and returns a HTTP response code only
-      operationId: postBodyParamEmptyResponse
-      description:
-        Endpoint which takes a body parameter and returns a HTTP response code only
-      produces:
-      - application/json
-      consumes:
-      - application/json
-      x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
-      responses:
-        200:
-          description: Successful execution of API call
-        500:
-          description: General Failure
-      parameters:
-      - in: body
-        name: bodyParam
-        description: An arbitrary test parameter which is ignored here
         schema:
-          $ref: '#/definitions/InputObject'
-        required: true
+          type: integer
 
   /query-param/empty-response:
     get:
@@ -312,16 +264,17 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call
-        500:
+        '500':
           description: General Failure
       parameters:
       - in: query
         name: query-param
         description: An arbitrary test parameter which is ignored here
-        type: integer
         required: true
+        schema:
+          type: integer
 
   /query-param/simple-response:
     get:
@@ -339,18 +292,19 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call returning message in simple JSON object
           schema:
-            $ref: '#/definitions/SimpleMessageResponse'
-        500:
+            $ref: '#/components/schemas/SimpleMessageResponse'
+        '500':
           description: General Failure
       parameters:
       - in: query
         name: query-param
         description: An arbitrary test parameter which is returned in the response
-        type: integer
         required: true
+        schema:
+          type: integer
 
   /query-param/complex-response:
     get:
@@ -368,18 +322,19 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call returning complex object
           schema:
-            $ref: '#/definitions/ComplexObjectResponse'
-        500:
+            $ref: '#/components/schemas/ComplexObjectResponse'
+        '500':
           description: General Failure
       parameters:
       - in: query
         name: query-param
         description: An arbitrary test parameter which is returned in the response
-        type: integer
         required: true
+        schema:
+          type: integer
 
   /query-param/error-response:
     get:
@@ -397,18 +352,65 @@ paths:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        418:
+        '418':
           description: Error generated when executing API call
           schema:
-            $ref: '#/definitions/ErrorResponse'
-        500:
+            $ref: '#/components/schemas/ErrorResponse'
+        '500':
           description: General Failure
       parameters:
       - in: query
         name: query-param
         description: An arbitrary test parameter which is returned in the response
-        type: integer
         required: true
+        schema:
+          type: integer
+
+  /body-param/empty-response:
+    get:
+      tags:
+      - open
+      summary: Get endpoint defined which simply gives response indicating that POST should be used
+      operationId: getBodyParamEmptyResponse
+      description:
+        Get endpoint defined which simply gives response indicating that POST should be used
+      produces:
+      - application/json
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        type: aws_proxy
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+      responses:
+        '501':
+          description: API call runs, but there is no implementation
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: General Failure
+    post:
+      tags:
+      - open
+      summary: Endpoint which takes a body parameter and returns a HTTP response code only
+      operationId: postBodyParamEmptyResponse
+      description:
+        Endpoint which takes a body parameter and returns a HTTP response code only
+      x-amazon-apigateway-integration:
+        httpMethod: post
+        type: aws_proxy
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+      responses:
+        '200':
+          description: Successful execution of API call
+        '500':
+          description: General Failure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputObject'
 
   /body-param/simple-response:
     get:
@@ -430,7 +432,7 @@ paths:
           description: API call runs, but there is no implementation
           schema:
             $ref: '#/definitions/ErrorResponse'
-        500:
+        '500':
           description: General Failure
     post:
       tags:
@@ -439,29 +441,24 @@ paths:
       operationId: postBodyParamSimpleResponse
       description:
         Endpoint which takes a body parameter and returns a HTTP response containing a simple message
-      produces:
-      - application/json
-      consumes:
-      - application/json
       x-amazon-apigateway-integration:
         httpMethod: post
         type: aws_proxy
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Test Response
           schema:
             $ref: '#/definitions/SimpleMessageResponse'
-        500:
+        '500':
           description: General Failure
-      parameters:
-      - in: body
-        name: bodyParam
-        description: An input JSON object required with this call
-        schema:
-          $ref: '#/definitions/InputObject'
+      requestBody:
         required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputObject'
 
   /body-param/complex-response:
     get:
@@ -483,7 +480,7 @@ paths:
           description: API call runs, but there is no implementation
           schema:
             $ref: '#/definitions/ErrorResponse'
-        500:
+        '500':
           description: General Failure
     post:
       tags:
@@ -492,29 +489,24 @@ paths:
       operationId: postBodyParamComplexResponse
       description:
         An endpoint which takes an input parameter and returns a HTTP response code and a complex JSON object in a body
-      produces:
-      - application/json
-      consumes:
-      - application/json
       x-amazon-apigateway-integration:
         httpMethod: post
         type: aws_proxy
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        200:
+        '200':
           description: Successful execution of API call returning complex object
           schema:
             $ref: '#/definitions/ComplexObjectResponse'
-        500:
+        '500':
           description: General Failure
-      parameters:
-      - in: body
-        name: bodyParam
-        description: An input JSON object required with this call
-        schema:
-          $ref: '#/definitions/InputObject'
+      requestBody:
         required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputObject'
 
   /body-param/error-response:
     get:
@@ -536,7 +528,7 @@ paths:
           description: API call runs, but there is no implementation
           schema:
             $ref: '#/definitions/ErrorResponse'
-        500:
+        '500':
           description: General Failure
     post:
       tags:
@@ -545,102 +537,98 @@ paths:
       operationId: postBodyParamErrorResponse
       description:
         An endpoint which takes an input parameter and returns a HTTP response code and an error response
-      produces:
-      - application/json
-      consumes:
-      - application/json
       x-amazon-apigateway-integration:
         httpMethod: post
         type: aws_proxy
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
       responses:
-        418:
+        '418':
           description: Error generated when executing API call
           schema:
             $ref: '#/definitions/ErrorResponse'
-        500:
+        '500':
           description: General Failure
-      parameters:
-      - in: body
-        name: bodyParam
-        description: An input JSON object required with this call
-        schema:
-          $ref: '#/definitions/InputObject'
+      requestBody:
         required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputObject'
 
-definitions:
-  ErrorResponse:
-    type: object
-    required:
-    - error_number
-    - error_string
-    properties:
-      error_string:
-        type: string
-      error_number:
-        type: integer
-
-  SimpleMessageResponse:
-    type: object
-    required:
-    - message
-    properties:
-      message:
-        type: string
-
-  InputObject:
-    type: object
-    required:
-    - string
-    - descriptor
-    - int_val
-    properties:
-      string:
-        type: string
-      descriptor:
-        type: string
-      int_val:
-        type: integer
-
-  SimpleObjectOne:
-    type: object
-    required:
-    - string_array
-    - descriptor
-    - int_val
-    properties:
-      string_array:
-        type: array
-        items:
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+      - error_number
+      - error_string
+      properties:
+        error_string:
           type: string
-      descriptor:
-        type: string
-      int_val:
-        type: integer
-
-  SimpleObjectTwo:
-    type: object
-    required:
-    - int_array
-    - descriptor
-    properties:
-      int_array:
-        type: array
-        items:
+        error_number:
           type: integer
-      descriptor:
-        type: string
 
-  ComplexObjectResponse:
-    type: object
-    required:
-    - object1
-    - object2
-    properties:
-      object1:
-        $ref: '#/definitions/SimpleObjectOne'
-      object2:
-        $ref: '#/definitions/SimpleObjectTwo'
-      optional_param:
-        type: integer
+    SimpleMessageResponse:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+
+    InputObject:
+      type: object
+      required:
+      - string
+      - descriptor
+      - int_val
+      properties:
+        string:
+          type: string
+        descriptor:
+          type: string
+        int_val:
+          type: integer
+
+    SimpleObjectOne:
+      type: object
+      required:
+      - string_array
+      - descriptor
+      - int_val
+      properties:
+        string_array:
+          type: array
+          items:
+            type: string
+        descriptor:
+          type: string
+        int_val:
+          type: integer
+
+    SimpleObjectTwo:
+      type: object
+      required:
+      - int_array
+      - descriptor
+      properties:
+        int_array:
+          type: array
+          items:
+            type: integer
+        descriptor:
+          type: string
+
+    ComplexObjectResponse:
+      type: object
+      required:
+      - object1
+      - object2
+      properties:
+        object1:
+          $ref: '#/components/schemas/SimpleObjectOne'
+        object2:
+          $ref: '#/components/schemas/SimpleObjectTwo'
+        optional_param:
+          type: integer
