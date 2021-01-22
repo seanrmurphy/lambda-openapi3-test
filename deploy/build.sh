@@ -9,9 +9,9 @@ go build
 
 echo
 echo "Moving application to this directory and zipping for Lambda upload..."
-mv lambda-swagger-test deploy
+mv lambda-openapi3-test deploy
 cd deploy
-zip lambda-swagger-test.zip ./lambda-swagger-test
-rm lambda-swagger-test
+zip lambda-openapi3-test.zip ./lambda-openapi3-test
+rm lambda-openapi3-test
 
 
