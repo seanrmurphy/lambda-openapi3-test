@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	api "github.com/seanrmurphy/lambda-openapi3-test/api"
 )
 
@@ -17,6 +18,9 @@ func main() {
 
 	// We now register our petStore above as the handler for the interface
 	e := echo.New()
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}\n",
+	}))
 
 	api.RegisterHandlers(e, a)
 

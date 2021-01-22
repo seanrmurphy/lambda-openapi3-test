@@ -39,7 +39,7 @@ curlwithcode $RESTAPI/no-params/complex-response
 
 echo
 echo "Sending GET request to /no-params/error-response - expect HTTP 418 with error message"
-curlwithcode $RESTAPI/no-params/empty-response
+curlwithcode $RESTAPI/no-params/error-response
 
 PARAM='1234'
 
@@ -57,7 +57,7 @@ curlwithcode $RESTAPI/path-param/complex-response/$PARAM
 
 echo
 echo "Sending GET request to /path-param/error-response - expect HTTP 418 with error message"
-curlwithcode $RESTAPI/path-param/empty-response/$PARAM
+curlwithcode $RESTAPI/path-param/error-response/$PARAM
 
 PARAM='5678'
 
@@ -75,7 +75,7 @@ curlwithcode $RESTAPI/query-param/complex-response?query-param=$PARAM
 
 echo
 echo "Sending GET request to /query-param/error-response - expect HTTP 418 with error message"
-curlwithcode $RESTAPI/query-param/empty-response?query-param=$PARAM
+curlwithcode $RESTAPI/query-param/error-response?query-param=$PARAM
 
 echo
 echo "Sending GET request to /body-param/empty-response - expect HTTP 501 with error message"

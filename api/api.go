@@ -35,7 +35,7 @@ func sendApiError(ctx echo.Context, code int, message string) error {
 }
 
 func (*Api) GetApiIdentifier(ctx echo.Context) error {
-	str := "go-swagger Lambda integration API - version 1.0"
+	str := "oapi-codegen Lambda integration API (OpenAPI v3 version) - version 1.0"
 
 	r := SimpleMessageResponse{
 		Message: str,
@@ -99,7 +99,7 @@ func (*Api) GetNoParamsErrorResponse(ctx echo.Context) error {
 		ErrorNumber: randomInt,
 		ErrorString: str,
 	}
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusTeapot, r)
 
 }
 
@@ -160,7 +160,7 @@ func (*Api) GetPathParamErrorResponse(ctx echo.Context, pathParam int) error {
 		ErrorNumber: randomInt,
 		ErrorString: str,
 	}
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusTeapot, r)
 }
 
 // Endpoint which takes a parameter and returns a HTTP response code only
@@ -220,7 +220,7 @@ func (*Api) GetQueryParamErrorResponse(ctx echo.Context, params GetQueryParamErr
 		ErrorNumber: randomInt,
 		ErrorString: str,
 	}
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusTeapot, r)
 }
 
 // Get endpoint defined which simply gives response indicating that POST should be used
@@ -233,7 +233,7 @@ func (*Api) GetBodyParamEmptyResponse(ctx echo.Context) error {
 		ErrorNumber: randomInt,
 		ErrorString: str,
 	}
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusNotImplemented, r)
 
 }
 
@@ -253,7 +253,7 @@ func (*Api) GetBodyParamSimpleResponse(ctx echo.Context) error {
 		ErrorNumber: randomInt,
 		ErrorString: str,
 	}
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusNotImplemented, r)
 }
 
 // Endpoint which takes a body parameter and returns a HTTP response containing a simple message
@@ -280,7 +280,7 @@ func (*Api) GetBodyParamComplexResponse(ctx echo.Context) error {
 		ErrorNumber: randomInt,
 		ErrorString: str,
 	}
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusNotImplemented, r)
 }
 
 // An endpoint which takes an input parameters and returns a HTTP response code and a complex JSON object in a body
@@ -325,7 +325,7 @@ func (*Api) GetBodyParamErrorResponse(ctx echo.Context) error {
 		ErrorNumber: randomInt,
 		ErrorString: str,
 	}
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusNotImplemented, r)
 }
 
 // An endpoint which takes an input parameter and returns a HTTP response code and an error response
@@ -341,7 +341,7 @@ func (*Api) PostBodyParamErrorResponse(ctx echo.Context) error {
 		ErrorNumber: randomInt,
 		ErrorString: str,
 	}
-	return ctx.JSON(http.StatusOK, r)
+	return ctx.JSON(http.StatusTeapot, r)
 }
 
 //Here, we implement all of the handlers in the ServerInterface
