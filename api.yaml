@@ -575,19 +575,6 @@ components:
         message:
           type: string
 
-    InputObject:
-      required:
-      - string
-      - descriptor
-      - int_val
-      properties:
-        string:
-          type: string
-        descriptor:
-          type: string
-        int_val:
-          type: integer
-
     SimpleObjectOne:
       required:
       - string_array
@@ -625,4 +612,17 @@ components:
         object2:
           $ref: '#/components/schemas/SimpleObjectTwo'
         optional_param:
+          type: integer
+
+    InputObject:
+      required:
+      - string
+      - descriptor
+      - int_val
+      properties:
+        string:
+          type: string
+        descriptor:
+          type: string
+        int_val:
           type: integer
