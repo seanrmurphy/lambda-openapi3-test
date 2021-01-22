@@ -176,7 +176,7 @@ echo "Error cases - sending invalid body parameter"
 
 echo
 echo "Sending POST request to /body-param/empty-response - expect invalid request response"
-curlwithcode -X POST -H 'Content-Type: application/json' -d '{"string": "hello", "descripto": "a wonderful day", "int_val": 42}' $RESTAPI/body-param/empty-response
+curlwithcode -X POST -H 'Content-Type: application/jso' -d '{"string": "hello", "descripto": "a wonderful day", "int_val": 42}' $RESTAPI/body-param/empty-response
 
 echo
 echo "Sending POST request to /body-param/simple-response - expect invalid request response"
@@ -189,3 +189,4 @@ curlwithcode -X POST -H 'Accept: application/json' -H 'Content-Type: application
 echo
 echo "Sending POST request to /body-param/error-response - expect invalid request response"
 curlwithcode -X POST -H 'Content-Type: application/json' -d '{"string": "hello", "descripto": "a wonderful day", "int_val": 42}' $RESTAPI/body-param/error-response
+#curlwithcode -X POST $RESTAPI/body-param/error-response
