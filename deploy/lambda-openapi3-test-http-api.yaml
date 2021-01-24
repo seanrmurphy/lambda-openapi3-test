@@ -8,6 +8,7 @@ Description: >
 Resources:
   LambdaOpenAPITestAPI:
     Type: AWS::Serverless::HttpApi
+    FailOnWarnings: true
     Properties:
       StageName: test
 
@@ -16,11 +17,11 @@ Resources:
       #Cors: "'www.example.com'"
 
       DefinitionBody:
-        'Fn::Transform':
-          Name: 'AWS::Include'
+        Fn::Transform:
+          Name: AWS::Include
           # Replace <bucket> with your bucket name
           Parameters:
-            Location: ../api.yaml
+            Location: '../api.yaml'
 
   LambdaOpenAPITestFunction:
     Type: AWS::Serverless::Function
@@ -30,18 +31,48 @@ Resources:
       Handler: lambda-openapi3-test
       Runtime: go1.x
       Events:
-        ApiCall:
-          Type: HttpApi
-          Properties:
-            ApiId: !Ref LambdaOpenAPITestAPI
-            #Path: /
-            #Method: ANY
-        #ProxyApiGreedy:
+        #RootEndpoint:
           #Type: HttpApi
           #Properties:
             #ApiId: !Ref LambdaOpenAPITestAPI
-            #Path: /{proxy+}
-            #Method: ANY
+            #Path: /
+            #Method: GET
+        #NoParamsEmptyResponseEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /no-params/empty-response
+            #Method: GET
+        #NoParamsSimpleResponseEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /no-params/simple-response
+            #Method: GET
+        #NoParamsComplexResponseEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /no-params/complex-response
+            #Method: GET
+        #NoParamsErrorResponseEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /no-params/error-response
+            #Method: GET
+        #RootEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /
+            #Method: GET
+        ProxyApiGreedy:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref LambdaOpenAPITestAPI
+            Path: /{proxy+}
+            Method: ANY
 
 Outputs:
   LambdaOpenAPITestFunctionArn:

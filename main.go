@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -44,6 +45,8 @@ func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse,
 			Body:       `{"message": "Null handler operational - always returns this message"}`,
 		}, nil
 	} else {
+		fmt.Printf("Path = %v, Resource = %v, req = %v\n", req.Path, req.Resource, req)
+		req.Path = req.Path[(len(req.RequestContext.Stage) + 2):]
 		return echoAdapter.Proxy(req)
 	}
 }

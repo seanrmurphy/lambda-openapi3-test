@@ -10,4 +10,5 @@ require (
 	github.com/go-chi/chi v4.1.2+incompatible
 	github.com/labstack/echo v3.3.10+incompatible // indirect
 	github.com/labstack/echo/v4 v4.1.17
+	github.com/pkg/errors v0.8.1
 )
