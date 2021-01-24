@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.1
 info:
   description: A Test API for testing lambda/OpenAPI integration in Go
   version: 1.0.0
@@ -28,10 +28,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: '#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function'
       responses:
         '200':
           description: Returns API version and running backend version
@@ -51,10 +48,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: '#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function'
       responses:
         '200':
           description: Successful execution of API call
@@ -72,10 +66,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: '#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function'
       responses:
         '200':
           description: Successful execution of API call returning message in simple JSON object
@@ -95,10 +86,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: '#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function'
       responses:
         '200':
           description: Successful execution of API call returning complex object
@@ -118,10 +106,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: '#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function'
       responses:
         '418':
           description: Error generated when executing API call
@@ -141,10 +126,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Successful execution of API call
@@ -169,10 +151,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Successful execution of API call returning message in simple JSON object
@@ -199,10 +178,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Successful execution of API call returning complex object
@@ -229,10 +205,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '418':
           description: Error generated when executing API call
@@ -259,10 +232,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Successful execution of API call
@@ -287,10 +257,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Successful execution of API call returning message in simple JSON object
@@ -317,10 +284,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Successful execution of API call returning complex object
@@ -347,10 +311,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '418':
           description: Error generated when executing API call
@@ -377,10 +338,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '501':
           description: API call runs, but there is no implementation
@@ -396,10 +354,7 @@ paths:
       description:
         Endpoint which takes a body parameter and returns a HTTP response code only
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Successful execution of API call
@@ -423,10 +378,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         501:
           description: API call runs, but there is no implementation
@@ -442,10 +394,7 @@ paths:
       description:
         Endpoint which takes a body parameter and returns a HTTP response containing a simple message
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Test Response
@@ -471,10 +420,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         501:
           description: API call runs, but there is no implementation
@@ -490,10 +436,7 @@ paths:
       description:
         An endpoint which takes an input parameter and returns a HTTP response code and a complex JSON object in a body
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '200':
           description: Successful execution of API call returning complex object
@@ -519,10 +462,7 @@ paths:
       produces:
       - application/json
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         501:
           description: API call runs, but there is no implementation
@@ -538,10 +478,7 @@ paths:
       description:
         An endpoint which takes an input parameter and returns a HTTP response code and an error response
       x-amazon-apigateway-integration:
-        httpMethod: post
-        type: aws_proxy
-        uri:
-          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaSwaggerTestFunction.Arn}/invocations
+        $ref: "#/components/x-amazon-apigateway-integrations/lambda-openapi-test-function"
       responses:
         '418':
           description: Error generated when executing API call
@@ -626,3 +563,18 @@ components:
           type: string
         int_val:
           type: integer
+
+  x-amazon-apigateway-integrations:
+    #lambda-openapi-test-function:
+      #httpMethod: POST
+      #type: aws_proxy
+      #uri:
+        #Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaOpenAPITestFunction.Arn}/invocations
+
+    lambda-openapi-test-function:
+      httpMethod: POST
+      type: aws_proxy
+      payloadFormatVersion: '1.0'
+      uri:
+        Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaOpenAPITestFunction.Arn}/invocations
+

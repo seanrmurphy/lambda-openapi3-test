@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-openapi3-test
+
+  SAM Template for simple application to demonstrate use of OpenAPI3 in go on Lambda.
+
+Resources:
+  LambdaOpenAPITestAPI:
+    Type: AWS::Serverless::HttpApi
+    FailOnWarnings: true
+    Properties:
+      StageName: test
+
+      # Allows www.example.com to call these APIs
+      # SAM will automatically add AllowMethods with a list of methods for this API
+      #Cors: "'www.example.com'"
+
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          # Replace <bucket> with your bucket name
+          Parameters:
+            Location: '../api.yaml'
+
+  LambdaOpenAPITestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      # Replace <bucket> with your bucket name
+      CodeUri: ./lambda-openapi3-test.zip
+      Handler: lambda-openapi3-test
+      Runtime: go1.x
+      Events:
+        #RootEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /
+            #Method: GET
+        #NoParamsEmptyResponseEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /no-params/empty-response
+            #Method: GET
+        #NoParamsSimpleResponseEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /no-params/simple-response
+            #Method: GET
+        #NoParamsComplexResponseEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /no-params/complex-response
+            #Method: GET
+        #NoParamsErrorResponseEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /no-params/error-response
+            #Method: GET
+        #RootEndpoint:
+          #Type: HttpApi
+          #Properties:
+            #ApiId: !Ref LambdaOpenAPITestAPI
+            #Path: /
+            #Method: GET
+        ProxyApiGreedy:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref LambdaOpenAPITestAPI
+            Path: /{proxy+}
+            Method: ANY
+
+Outputs:
+  LambdaOpenAPITestFunctionArn:
+    Description: "OpenAPI3 HTTP API Handler Lambda function"
+    Value: !GetAtt LambdaOpenAPITestFunction.Arn
+
+  LambdaOpenAPITestAPIArn:
+    Description: "The endpoint to connect to the API (staging)"
+    #Value: !GetAtt TravelUpdateAPI.Arn
+    Value: !Join [ '', [ 'https://', !Ref LambdaOpenAPITestAPI, '.execute-api.',!Ref 'AWS::Region','.amazonaws.com/test'] ]
+
