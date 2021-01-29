@@ -18,7 +18,7 @@ var echoAdapter *echoadapter.EchoLambda
 var nullHandler = false
 
 // Lambda mode determines whether this is run locally or remotely
-var lambdaMode = true
+var lambdaMode = false
 
 func init() {
 

@@ -31,42 +31,6 @@ Resources:
       Handler: lambda-openapi3-test
       Runtime: go1.x
       Events:
-        #RootEndpoint:
-          #Type: HttpApi
-          #Properties:
-            #ApiId: !Ref LambdaOpenAPITestAPI
-            #Path: /
-            #Method: GET
-        #NoParamsEmptyResponseEndpoint:
-          #Type: HttpApi
-          #Properties:
-            #ApiId: !Ref LambdaOpenAPITestAPI
-            #Path: /no-params/empty-response
-            #Method: GET
-        #NoParamsSimpleResponseEndpoint:
-          #Type: HttpApi
-          #Properties:
-            #ApiId: !Ref LambdaOpenAPITestAPI
-            #Path: /no-params/simple-response
-            #Method: GET
-        #NoParamsComplexResponseEndpoint:
-          #Type: HttpApi
-          #Properties:
-            #ApiId: !Ref LambdaOpenAPITestAPI
-            #Path: /no-params/complex-response
-            #Method: GET
-        #NoParamsErrorResponseEndpoint:
-          #Type: HttpApi
-          #Properties:
-            #ApiId: !Ref LambdaOpenAPITestAPI
-            #Path: /no-params/error-response
-            #Method: GET
-        #RootEndpoint:
-          #Type: HttpApi
-          #Properties:
-            #ApiId: !Ref LambdaOpenAPITestAPI
-            #Path: /
-            #Method: GET
         ProxyApiGreedy:
           Type: HttpApi
           Properties:

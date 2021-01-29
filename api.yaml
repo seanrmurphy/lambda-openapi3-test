@@ -565,12 +565,6 @@ components:
           type: integer
 
   x-amazon-apigateway-integrations:
-    #lambda-openapi-test-function:
-      #httpMethod: POST
-      #type: aws_proxy
-      #uri:
-        #Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaOpenAPITestFunction.Arn}/invocations
-
     lambda-openapi-test-function:
       httpMethod: POST
       type: aws_proxy
