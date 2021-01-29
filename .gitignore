@@ -1,0 +1,9 @@
+lambda-swagger-test
+lambda-swagger-test.zip
+cmd
+models
+restapi
+api/api-server.gen.go
+api/api-types.gen.go
+main
+*.zip
