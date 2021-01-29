@@ -7,31 +7,15 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
-	"sync"
 
 	"github.com/labstack/echo/v4"
 )
 
 type Api struct {
-	NextId int64
-	Lock   sync.Mutex
 }
 
 func NewApi() *Api {
-	return &Api{
-		NextId: 1000,
-	}
-}
-
-// This function wraps sending of an error in the Error format, and
-// handling the failure to marshal that.
-func sendApiError(ctx echo.Context, code int, message string) error {
-	apiError := ErrorResponse{
-		ErrorNumber: code,
-		ErrorString: message,
-	}
-	err := ctx.JSON(code, apiError)
-	return err
+	return &Api{}
 }
 
 func (*Api) GetApiIdentifier(ctx echo.Context) error {
