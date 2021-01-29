@@ -35,9 +35,9 @@ the server code and the types defined in the OAS3 specification respectively.
 - Build the application
 
 This application supports 2 modes: one in which the application runs locally and
-one in which the application runs in AWS. `main.go` provides a boolean called `lambdaMode`
+one in which the application runs in AWS. `main.go` provides a boolean `lambdaMode`
 which determines whether the resulting binary should be run locally or as a Lamdba
-function. Set `lambdaMode` to false to build a binary which can offer the API
+function. Set `lambdaMode` to `false` to build a binary which can offer the API
 locally.
 
 ```
@@ -46,7 +46,7 @@ go build
 
 This builds the application in the top level directory of the repo.
 
-- Run the application locally
+- Run the application locally (optional)
 
 If the application was built with `lambdaMode` set to `false`, you can run the
 binary directly
@@ -97,11 +97,12 @@ body of requests. This should be evident from the test suite provided.
 One way of dealing with that is to apply [this pull request](https://github.com/deepmap/oapi-codegen/pull/245). This
 makes a new capability available to the oapi-codegen tool, that of validating
 the unmarshall of objects. It operates by creating an `UnmarshalJSON()` function
-for schemas which are used as input parameters. In this case, you can achieve
-the same by copying the code below to the `api-types.gen.go` file and rebuilding.
+for schemas which are used as input parameters. You can achieve the same by
+copying the code below to the `api-types.gen.go` file and rebuilding.
 
 Now, if you run the API locally, the tests generate an error when and incorrect
-JSON object is supplied.
+JSON object is supplied and there is similar behaviour when the function is uploaded
+to AWS.
 
 
 ```go
