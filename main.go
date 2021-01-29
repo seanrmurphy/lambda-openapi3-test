@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 
@@ -12,29 +13,28 @@ import (
 	api "github.com/seanrmurphy/lambda-openapi3-test/api"
 )
 
+var e *echo.Echo
 var echoAdapter *echoadapter.EchoLambda
 var nullHandler = false
 
+// Lambda mode determines whether this is run locally or remotely
+var lambdaMode = true
+
 func init() {
 
-	//api := setupHandlers()
-	//server := restapi.NewServer(api)
-	//server.ConfigureAPI()
-
-	//httpAdapter = httpadapter.New(server.GetHandler())
-	//
 	// Create an instance of our handler which satisfies the generated interface
 	a := api.NewApi()
 
-	// We now register our petStore above as the handler for the interface
-	e := echo.New()
+	e = echo.New()
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
 
 	api.RegisterHandlers(e, a)
 
-	echoAdapter = echoadapter.New(e)
+	if lambdaMode {
+		echoAdapter = echoadapter.New(e)
+	}
 }
 
 // Handler handles API requests
@@ -52,23 +52,11 @@ func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse,
 }
 
 func main() {
-	lambda.Start(Handler)
+	if lambdaMode {
+		lambda.Start(Handler)
+	} else {
+		var port = flag.Int("port", 8080, "Port for test HTTP server")
+		flag.Parse()
+		e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%d", *port)))
+	}
 }
-
-//func main() {
-//var port = flag.Int("port", 8080, "Port for test HTTP server")
-//flag.Parse()
-
-//// Create an instance of our handler which satisfies the generated interface
-//a := api.NewApi()
-
-//// We now register our petStore above as the handler for the interface
-//e := echo.New()
-//e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-//Format: "method=${method}, uri=${uri}, status=${status}\n",
-//}))
-
-//api.RegisterHandlers(e, a)
-
-//e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%d", *port)))
-//}
